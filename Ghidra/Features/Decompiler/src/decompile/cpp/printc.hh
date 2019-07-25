@@ -153,6 +153,8 @@ protected:
   Emit::brace_style option_brace_ifelse;	///< How braces for if/else blocks are formatted
   Emit::brace_style option_brace_loop;		///< How braces for loop blocks are formatted
   Emit::brace_style option_brace_switch;	///< How braces for switch blocks are formatted
+  bool option_space_after_comma;
+  bool option_newline_before_else;
   string nullToken;		///< Token to use for 'null'
   string sizeSuffix;		///< Characters to print to indicate a \e long integer token
   CommentSorter commsorter;	///< Container/organizer for comments in the current function
@@ -250,6 +252,8 @@ public:
   void setBraceFormatIfElse(Emit::brace_style style) { option_brace_ifelse = style; }	///< Set how if/else blocks are formatted
   void setBraceFormatLoop(Emit::brace_style style) { option_brace_loop = style; }	///< Set how loop blocks are formatted
   void setBraceFormatSwitch(Emit::brace_style style) { option_brace_switch = style; }	///< Set how switch blocks are formatted
+  void setSpaceAfterComma(bool val) { option_space_after_comma = val; }
+  void setNewlineBeforeElse(bool val) { option_newline_before_else = val; }
   virtual ~PrintC(void) {}
   virtual void resetDefaults(void);
   virtual void initializeFromArchitecture(void);

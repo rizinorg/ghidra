@@ -54,7 +54,7 @@ OpToken PrintC::boolean_and = { "&&", "", 2, 22, false, OpToken::binary, 1, 0, (
 OpToken PrintC::boolean_xor = { "^^", "", 2, 20, false, OpToken::binary, 1, 0, (OpToken *)0 };
 OpToken PrintC::boolean_or = { "||", "", 2, 18, false, OpToken::binary, 1, 0, (OpToken *)0 };
 OpToken PrintC::assignment = { "=", "", 2, 14, false, OpToken::binary, 1, 5, (OpToken *)0 };
-OpToken PrintC::comma = { ",", "", 2, 2, true, OpToken::binary, 0, 0, (OpToken *)0 };
+OpToken PrintC::comma = { ", ", "", 2, 2, true, OpToken::binary, 0, 0, (OpToken *)0 };
 OpToken PrintC::new_op = { "", "", 2, 62, false, OpToken::space, 1, 0, (OpToken *)0 };
 
 // Inplace assignment operators
@@ -1654,6 +1654,8 @@ void PrintC::resetDefaultsPrintC(void)
   option_brace_ifelse = Emit::same_line;
   option_brace_loop = Emit::same_line;
   option_brace_switch = Emit::same_line;
+  option_space_after_comma = false;
+  option_newline_before_else = true;
   setCStyleComments();
 }
 
@@ -2205,6 +2207,9 @@ void PrintC::emitStructDefinition(const TypeStruct *ct)
     iter++;
     if (iter != ct->endField()) {
       emit->print(COMMA); // Print comma separator
+      if (option_space_after_comma) {
+	emit->spaces(1);
+      }
       emit->tagLine();
     }
   }
@@ -2295,8 +2300,12 @@ void PrintC::emitPrototypeInputs(const FuncProto *proto)
   else {
     bool printComma = false;
     for(int4 i=0;i<sz;++i) {
-      if (printComma)
+      if (printComma) {
 	emit->print(COMMA);
+	if (option_space_after_comma) {
+	  emit->spaces(1);
+	}
+      }
       ProtoParameter *param = proto->getParam(i);
       if (isSet(hide_thisparam) && param->isThisPointer())
 	continue;
@@ -2314,8 +2323,12 @@ void PrintC::emitPrototypeInputs(const FuncProto *proto)
     }
   }
   if (proto->isDotdotdot()) {
-    if (sz != 0)
+    if (sz != 0) {
       emit->print(COMMA);
+      if (option_space_after_comma) {
+	emit->spaces(1);
+      }
+    }
     emit->print(DOTDOTDOT);
   }
 }
@@ -3058,7 +3071,11 @@ void PrintC::emitBlockIf(const BlockIf *bl)
     emit->endBlock(id1);
     emit->closeBraceIndent(CLOSE_CURLY, id);
     if (bl->getSize() == 3) {
-      emit->tagLine();
+      if (option_newline_before_else) {
+	emit->tagLine();
+      } else {
+	emit->spaces(1);
+      }
       emit->print(KEYWORD_ELSE,EmitMarkup::keyword_color);
       FlowBlock *elseBlock = bl->getBlock(2);
       if (elseBlock->getType() == FlowBlock::t_if) {
