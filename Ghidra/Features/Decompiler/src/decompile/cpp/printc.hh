@@ -185,9 +185,9 @@ protected:
   void emitPrototypeInputs(const FuncProto *proto);	///< Emit the input data-types of a function prototype
   void emitGlobalVarDeclsRecursive(Scope *symScope);	///< Emit variable declarations for all global symbols under given scope
   void emitLocalVarDecls(const Funcdata *fd);		///< Emit variable declarations for a function
-  void emitStatement(const PcodeOp *inst);		///< Emit a statement in the body of a function
+  virtual void emitStatement(const PcodeOp *inst);	///< Emit a statement in the body of a function
   bool emitInplaceOp(const PcodeOp *op);		///< Attempt to emit an expression rooted at an \e in-place operator
-  void emitGotoStatement(const FlowBlock *bl,const FlowBlock *exp_bl,uint4 type);
+  virtual void emitGotoStatement(const FlowBlock *bl,const FlowBlock *exp_bl,uint4 type);
   void emitSwitchCase(int4 casenum,const BlockSwitch *switchbl);	///< Emit labels for a \e case block
   void emitLabel(const FlowBlock *bl);			///< Emit a formal label for a given control-flow block
   void emitLabelStatement(const FlowBlock *bl);		///< Emit any required label statement for a given basic block
