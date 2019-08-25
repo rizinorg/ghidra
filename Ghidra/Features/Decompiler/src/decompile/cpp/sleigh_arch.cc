@@ -626,7 +626,7 @@ const vector<LanguageDescription> &SleighArchitecture::getDescriptions(void)
 void SleighArchitecture::shutdown(void)
 
 {
-  // description.clear();  // static vector is destroyed by the normal exit handler
+  description.clear();  // static vector is destroyed by the normal exit handler
 }
 
 } // End namespace ghidra
