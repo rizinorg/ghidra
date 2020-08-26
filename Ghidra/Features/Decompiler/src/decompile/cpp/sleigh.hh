@@ -170,6 +170,7 @@ protected:
   ParserContext *obtainContext(const Address &addr,int4 state) const;
   void resolve(ParserContext &pos) const;	///< Generate a parse tree suitable for disassembly
   void resolveHandles(ParserContext &pos) const;	///< Prepare the parse tree for p-code generation
+  ContextCache *getContextCache(void) { return cache; }
 public:
   Sleigh(LoadImage *ld,ContextDatabase *c_db);		///< Constructor
   virtual ~Sleigh(void);				///< Destructor
