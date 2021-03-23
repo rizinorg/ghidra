@@ -218,6 +218,15 @@ void EmitMarkup::tagFuncName(const string &name,syntax_highlight hl,const Funcda
   encoder->closeElement(ELEM_FUNCNAME);
 }
 
+void EmitMarkup::tagNoReturn(void)
+
+{
+  encoder->openElement(ELEM_NORETURN);
+  encoder->writeUnsignedInteger(ATTRIB_COLOR,no_color);
+  encoder->writeString(ATTRIB_CONTENT," noreturn ");
+  encoder->closeElement(ELEM_NORETURN);
+}
+
 void EmitMarkup::tagType(const string &name,syntax_highlight hl,const Datatype *ct)
 
 {
@@ -419,6 +428,9 @@ void TokenSplit::print(Emit *emit) const
     break;
   case fnam_t:	// tagFuncName
     emit->tagFuncName(tok,hl,ptr_second.fd,op);
+    break;
+  case noret_t:
+    emit->tagNoReturn();
     break;
   case type_t:	// tagType
     emit->tagType(tok,hl,ptr_second.ct);
@@ -1059,6 +1071,14 @@ void EmitPrettyPrint::tagFuncName(const string &name,syntax_highlight hl,const F
   checkstring();
   TokenSplit &tok( tokqueue.push() );
   tok.tagFuncName(name,hl,fd,op);
+  scan();
+}
+
+void EmitPrettyPrint::tagNoReturn(void)
+{
+  checkstring();
+  TokenSplit &tok( tokqueue.push() );
+  tok.tagNoReturn();
   scan();
 }
 
