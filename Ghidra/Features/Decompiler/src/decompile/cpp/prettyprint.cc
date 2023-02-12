@@ -354,7 +354,7 @@ void EmitMarkup::setOutputStream(ostream *t)
   if (encoder != (Encoder *)0)
     delete encoder;
   s = t;
-  encoder = new PackedEncode(*s);
+  encoder = new XmlEncode(*s);
 }
 
 void EmitMarkup::setPackedOutput(bool val)
