@@ -866,12 +866,12 @@ class TypeFactory {
   void insertWarning(Datatype *dt,string warn);	///< Register a new data-type warning with \b this factory
   void removeWarning(Datatype *dt);		///< Remove the warning associated with the given data-type
   void resolveIncompleteTypedefs(void);		///< Redefine incomplete typedefs of data-types that are now complete
-  void setFields(const vector<TypeField> &fd,const vector<TypeBitField> &bit,TypeStruct *ot,int4 newSize,int4 newAlign,uint4 flags);
-  void setFields(const vector<TypeField> &fd,TypeUnion *ot,int4 newSize,int4 newAlign,uint4 flags);	///< Set fields on a TypeUnion
 protected:
   Architecture *glb;		///< The Architecture object that owns this TypeFactory
   Datatype *findByIdLocal(const string &nm,uint8 id) const;	///< Search locally by name and id
   virtual Datatype *findById(const string &n,uint8 id,int4 sz);		///< Search by \e name and/or \e id
+  void setFields(const vector<TypeField> &fd,const vector<TypeBitField> &bit,TypeStruct *ot,int4 newSize,int4 newAlign,uint4 flags);
+  void setFields(const vector<TypeField> &fd,TypeUnion *ot,int4 newSize,int4 newAlign,uint4 flags);	///< Set fields on a TypeUnion
 public:
   TypeFactory(Architecture *g);	///< Construct a factory
   void setupSizes(void);	///< Derive some size information from Architecture
